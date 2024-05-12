@@ -12,107 +12,89 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import PrimaryButton from '@/components/CustomButtons/PrimaryButton'
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
-import { useEffect, useState } from 'react'
-import { useUser } from '@/services/useUser'
-import {
-  EditUserFromManagerValidator,
-  EditPersonalInfoValidator,
-  TEditUserFromManagerValidator,
-  TEditPersonalInfoValidator,
-  TCreateAdminFromManagerValidator,
-  CreateAdminFromManagerValidator,
-} from '@/lib/validators/user-validators'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import Separator from '@/components/Separator'
-import { Toggle } from '@/components/ui/toggle'
-import { Check, X } from 'lucide-react'
-import FloatingButton from '@/components/CustomButtons/FloatingButton'
-import { Button } from '@/components/ui/button'
-import { ParkingInterface } from '@/lib/interfaces/parking.interface'
-import { ParkingSelect } from './ParkingSelect'
+import { UnidadInterface } from '@/lib/interfaces/unidad.interface'
+import { useUnit } from '@/services/useUnit'
+import { TUnitValidator, UnitValidator } from '@/lib/validators/unit-validators'
 
-export function AdminDialog({ admin }: { admin?: UserInterface }) {
+export function UnitDialog({ unit }: { unit?: UnidadInterface }) {
   const router = useRouter()
-  const [parking, setParking] = useState<ParkingInterface | null>(null)
-  const [accountActive, setAccountActive] = useState(
-    admin?.accountActive ? true : false
-  )
-  const [accountBlocked, setAccountBlocked] = useState(
-    admin?.accountBlocked ? true : false
-  )
-  const { updateUser, isLoading, getUsers } = useUser()
+  const { updateUnit, isLoading, getUnits, createUnit } = useUnit()
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     getValues,
-  } = useForm<TCreateAdminFromManagerValidator>({
-    resolver: zodResolver(CreateAdminFromManagerValidator),
+  } = useForm<TUnitValidator>({
+    resolver: zodResolver(UnitValidator),
   })
   const onSubmit = async ({
-    email,
-    firstName,
-    secondName,
-    firstLastname,
-    secondLastname,
-    accountActive,
-    accountBlocked,
-    loginAttempts,
-    parking,
-  }: TCreateAdminFromManagerValidator) => {
-    const adminData = {
-      email,
-      firstName,
-      secondName,
-      firstLastname,
-      secondLastname,
-      accountActive,
-      accountBlocked,
-      loginAttempts,
-      roleList: ['ADMINISTRADOR'],
-    } as UserInterface
-    // const res = admin
-    //   ? await updateUser(adminData)
-    //   : await createUser(parkingData)
+    nombre,
+    tMinPrestamo,
+    horEntSemInicio,
+    horEntSemFin,
+    horFinSemInicio,
+    horFinSemFin,
+  }: TUnitValidator) => {
+    const unitData = {
+      id: unit ? unit.id : null,
+      nombre,
+      tMinPrestamo,
+      horEntSem: {
+        inicio: horEntSemInicio,
+        fin: horEntSemFin,
+      },
+      horFinSem: {
+        inicio: horFinSemInicio,
+        fin: horFinSemFin,
+      },
+    } as UnidadInterface
 
-    console.log(adminData);
-    console.log(parking);
-    
-
-    // const res = await updateUser(adminData)
-    // if (res?.status === 200) {
-    //   router.push('/admin/usuarios')
-    //   router.refresh()
-    // }
+    try {
+      unit ? updateUnit(unitData) : createUnit(unitData)
+      clearForm()
+      router.push('/admin/unidades')
+      router.refresh()
+    } catch (error) {
+      console.log(error)
+    }
   }
   useEffect(() => {
-    if (admin) {
-      setValue('email', admin.email)
-      setValue('firstName', admin.firstName)
-      if (admin.secondName) setValue('secondName', admin.secondName)
-      setValue('firstLastname', admin.firstLastname)
-      setValue('secondLastname', admin.secondLastname)
-      setValue('accountActive', admin.accountActive!)
-      setValue('accountBlocked', admin.accountBlocked!)
-      setValue('loginAttempts', admin.loginAttempts!)
+    if (unit) {
+      setValue('nombre', unit.nombre)
+      setValue('tMinPrestamo', unit.tMinPrestamo)
+      setValue('horEntSemInicio', unit.horEntSem.inicio)
+      setValue('horEntSemFin', unit.horEntSem.fin)
+      setValue('horFinSemInicio', unit.horFinSem.inicio)
+      setValue('horFinSemFin', unit.horFinSem.fin)
     } else {
-      setValue('loginAttempts', 0)
+      setValue('tMinPrestamo', 0)
+      setValue('horEntSemInicio', '00:00')
+      setValue('horEntSemFin', '00:00')
+      setValue('horFinSemInicio', '00:00')
+      setValue('horFinSemFin', '00:00')
     }
   }, [])
 
-  useEffect(() => {
-    setValue('parking', parking?.name + '')
-  }, [parking])
+  const clearForm = () => {
+    setValue('nombre', '')
+    setValue('tMinPrestamo', 0)
+    setValue('horEntSemInicio', '00:00')
+    setValue('horEntSemFin', '00:00')
+    setValue('horFinSemInicio', '00:00')
+    setValue('horFinSemFin', '00:00')
+  }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {!admin ? (
+        {!unit ? (
           <div className='inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 px-4 py-2 absolute top-0 z-10 tracking-widest border hover:bg-yellowFPC-200  dark:hover:bg-yellowFPC-400 dark:hover:text-black hover:border-primary right-2 md:right-0 cursor-pointer'>
             CREAR UNIDAD
           </div>
@@ -126,141 +108,114 @@ export function AdminDialog({ admin }: { admin?: UserInterface }) {
         <DialogHeader>
           <DialogTitle>
             <p className='tracking-widest'>
-              {!admin ? 'CREAR ADMINISTRADOR' : 'EDITAR ADMINISTRADOR'}
+              {!unit ? 'CREAR UNIDAD' : 'EDITAR UNIDAD'}
             </p>
           </DialogTitle>
           <DialogDescription>
-            Aquí puedes crear un nuevo funcionario en nuestro sistema.
+            Aquí puedes crear una nueva unidad en nuestro sistema.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='flex flex-col space-2'>
-            <div className='grid gap-2 justify-around grid-cols-2'>
-              <div className='grid gap-1 py-2'>
-                <Label htmlFor='firstName'>Primer Nombre</Label>
-                <Input
-                  {...register('firstName')}
-                  className={cn('border-yellowFPC-400', {
-                    'focus-visible:ring-red-500': errors.firstName,
-                  })}
-                  placeholder='Andrés'
-                />
-                {errors?.firstName && (
-                  <p className='text-sm text-red-500'>
-                    {errors.firstName.message}
-                  </p>
-                )}
-              </div>
-              <div className='grid gap-1 py-2'>
-                <Label htmlFor='secondName'>Segundo Nombre</Label>
-                <Input
-                  {...register('secondName')}
-                  className={cn('border-yellowFPC-400', {
-                    'focus-visible:ring-red-500': errors.secondName,
-                  })}
-                  placeholder='El Lagrimón'
-                />
-                {errors?.secondName && (
-                  <p className='text-sm text-red-500'>
-                    {errors.secondName.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className='grid gap-2 justify-around grid-cols-2'>
-              <div className='grid gap-1 py-2'>
-                <Label htmlFor='firstLastname'>Primer Apellido</Label>
-                <Input
-                  {...register('firstLastname')}
-                  className={cn('border-yellowFPC-400', {
-                    'focus-visible:ring-red-500': errors.firstLastname,
-                  })}
-                  placeholder='Pacheco'
-                />
-                {errors?.firstLastname && (
-                  <p className='text-sm text-red-500'>
-                    {errors.firstLastname.message}
-                  </p>
-                )}
-              </div>
-              <div className='grid gap-1 py-2'>
-                <Label htmlFor='secondLastname'>Segundo Apellido</Label>
-                <Input
-                  {...register('secondLastname')}
-                  className={cn('border-yellowFPC-400', {
-                    'focus-visible:ring-red-500': errors.secondLastname,
-                  })}
-                  placeholder='Naranjo'
-                />
-                {errors?.secondLastname && (
-                  <p className='text-sm text-red-500'>
-                    {errors.secondLastname.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <Separator lineColor='border-yellowFPC-400' />
-
             <div className='grid gap-1 py-2'>
-              <Label htmlFor='loginAttempts'>Intentos de Logueo</Label>
+              <Label htmlFor='firstName'>Nombre</Label>
               <Input
-                {...register('loginAttempts', { valueAsNumber: true })}
+                {...register('nombre')}
                 className={cn('border-yellowFPC-400', {
-                  'focus-visible:ring-red-500': errors.loginAttempts,
+                  'focus-visible:ring-red-500': errors.nombre,
                 })}
-                placeholder='0'
+                placeholder='Ingeniería'
               />
-              {errors?.loginAttempts && (
+              {errors?.nombre && (
+                <p className='text-sm text-red-500'>{errors.nombre.message}</p>
+              )}
+            </div>
+            <div className='grid gap-1 py-2'>
+              <Label htmlFor='tMinPrestamo'>Tiempo Mínimo de Prestamo</Label>
+              <Input
+                {...register('tMinPrestamo', { valueAsNumber: true })}
+                className={cn('border-yellowFPC-400', {
+                  'focus-visible:ring-red-500': errors.tMinPrestamo,
+                })}
+                placeholder='30 min'
+              />
+              {errors?.tMinPrestamo && (
                 <p className='text-sm text-red-500'>
-                  {errors.loginAttempts.message}
+                  {errors.tMinPrestamo.message}
                 </p>
               )}
             </div>
 
-            <div className='grid gap-1 py-2'>
-              <Label htmlFor='loginAttempts'>Parqueadero</Label>
-              <ParkingSelect
-                parking={parking}
-                setParking={setParking}
-                errors={errors.parking}
-              />
+            <Separator lineColor='border-yellowFPC-400' />
+
+            <div className='grid gap-2 justify-around grid-cols-2'>
+              <div className='grid gap-1 py-2'>
+                <Label htmlFor='horEntSemInicio'>Inicio Hora Entre Sem.</Label>
+                <Input
+                  {...register('horEntSemInicio')}
+                  className={cn('border-yellowFPC-400', {
+                    'focus-visible:ring-red-500': errors.horEntSemInicio,
+                  })}
+                  type='time'
+                />
+                {errors?.horEntSemInicio && (
+                  <p className='text-sm text-red-500'>
+                    {errors.horEntSemInicio.message}
+                  </p>
+                )}
+              </div>
+              <div className='grid gap-1 py-2'>
+                <Label htmlFor='horEntSemFin'>Fin Hora Entre Sem.</Label>
+                <Input
+                  {...register('horEntSemFin')}
+                  className={cn('border-yellowFPC-400', {
+                    'focus-visible:ring-red-500': errors.horEntSemFin,
+                  })}
+                  type='time'
+                />
+                {errors?.horEntSemFin && (
+                  <p className='text-sm text-red-500'>
+                    {errors.horEntSemFin.message}
+                  </p>
+                )}
+              </div>
             </div>
 
-            <div className='grid gap-1 py-2'>
-              <Toggle
-                aria-label='Toggle-accountActive'
-                onPressedChange={() => {
-                  setValue('accountActive', !getValues('accountActive'))
-                  setAccountActive(!accountActive)
-                }}
-                defaultPressed={accountActive}
-                className='border space-x-2'
-              >
-                {accountActive ? <Check size={19} /> : <X size={19} />}
-                <p>CUENTA ACTIVA</p>
-              </Toggle>
-            </div>
-            <div className='grid gap-1 py-2'>
-              <Toggle
-                aria-label='Toggle-accountBlocked'
-                onPressedChange={() => {
-                  setValue(
-                    'accountBlocked',
-                    accountBlocked ? accountBlocked : false
-                  )
-                  setAccountBlocked(!accountBlocked)
-                }}
-                defaultPressed={accountBlocked}
-                className='border space-x-2'
-              >
-                {accountBlocked ? <Check size={19} /> : <X size={19} />}
-                <p className='tracking-widest'>CUENTA BLOQUEADA</p>
-              </Toggle>
+            <div className='grid gap-2 justify-around grid-cols-2'>
+              <div className='grid gap-1 py-2'>
+                <Label htmlFor='horFinSemInicio'>Inicio Hora Fin de Sem.</Label>
+                <Input
+                  {...register('horFinSemInicio')}
+                  className={cn('border-yellowFPC-400', {
+                    'focus-visible:ring-red-500': errors.horFinSemInicio,
+                  })}
+                  type='time'
+                />
+                {errors?.horFinSemInicio && (
+                  <p className='text-sm text-red-500'>
+                    {errors.horFinSemInicio.message}
+                  </p>
+                )}
+              </div>
+              <div className='grid gap-1 py-2'>
+                <Label htmlFor='horFinSemFin'>Fin Hora Fin de Sem.</Label>
+                <Input
+                  {...register('horFinSemFin')}
+                  className={cn('border-yellowFPC-400', {
+                    'focus-visible:ring-red-500': errors.horFinSemFin,
+                  })}
+                  type='time'
+                />
+                {errors?.horFinSemFin && (
+                  <p className='text-sm text-red-500'>
+                    {errors.horFinSemFin.message}
+                  </p>
+                )}
+              </div>
             </div>
 
             <PrimaryButton
-              text={'CONFIRMAR DATOS PERSONALES'}
+              text={unit ? 'CONFIRMAR CAMBIOS UNIDAD' : 'CREAR UNIDAD'}
               isLoading={isLoading}
             />
           </div>

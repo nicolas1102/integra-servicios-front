@@ -9,7 +9,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -18,10 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
 import UnitsTableColumns from '../_lib/UnitsTableColumns'
-import { useState } from 'react'
-import { UserFiltersDialog } from './UserFiltersDialog'
 import { UnidadInterface } from '@/lib/interfaces/unidad.interface'
 
 export function UnitsTable({ data }: { data: UnidadInterface[] }) {
@@ -36,7 +32,7 @@ export function UnitsTable({ data }: { data: UnidadInterface[] }) {
           <DropdownMenuTrigger asChild>
             <Button
               variant='outline'
-              className='ml-auto border border-blueFPC-400'
+              className='border border-blueFPC-400'
             >
               <p className='tracking-widest'>COLUMNAS </p>
               <ChevronDown className='ml-2 h-4 w-4' />

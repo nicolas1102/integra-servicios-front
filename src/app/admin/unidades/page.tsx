@@ -5,7 +5,7 @@ import Loader from '@/components/Loader'
 import { UnitsTable } from './_components/UnitsTable'
 import { useEffect, useState } from 'react'
 import { useUser } from '@/services/useUser'
-import { AdminDialog } from './_components/UnitDialog'
+import { UnitDialog } from './_components/UnitDialog'
 import NoResults from '@/components/NoResults'
 import { useUnit } from '@/services/useUnit'
 
@@ -21,7 +21,7 @@ const Page = () => {
 
   return (
     <div className=' flex flex-col relative m-10'>
-      <AdminDialog />
+      <UnitDialog />
       {isLoading ? (
         <Loader />
       ) : units.length === 0 ? (

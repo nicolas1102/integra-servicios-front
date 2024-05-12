@@ -18,10 +18,10 @@ export const UnitValidator = z.object({
   horFinSemFin: z
     .string()
     .min(1, { message: 'Este campo es necesario.' }),
-}).refine((data) => data.horEntSemFin >= data.horEntSemInicio, {
+}).refine((data) => data.horEntSemFin === data.horEntSemInicio, {
   message: "La hora de cierre no puede ser igual o mayor a la de apertura.",
   path: ["horEntSemFin"],
-}).refine((data) => data.horFinSemFin >= data.horFinSemInicio, {
+}).refine((data) => data.horFinSemFin === data.horFinSemInicio, {
   message: "La hora de cierre no puede ser igual o mayor a la de apertura.",
   path: ["horFinSemFin"],
 });

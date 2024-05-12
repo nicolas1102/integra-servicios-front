@@ -14,6 +14,6 @@ export interface TipoRecursoUnidadInterface {
     hora_inicio: string
   }];
   idTRecurso: string;
-  idUnidad: string;
+  id: string;
   nombre: string,
 }

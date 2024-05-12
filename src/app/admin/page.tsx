@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import AdminFunctionItem from './_components/AdminFunctionItem'
-import { LineChart, ParkingSquare, University, User } from 'lucide-react'
+import { BookType, LineChart, ParkingSquare, University, User } from 'lucide-react'
 
 const FUNCTIONS = [
   {
@@ -12,25 +12,10 @@ const FUNCTIONS = [
     icon: <University strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
   },
   {
-    title: 'GESTIONAR USUARIOS',
-    text: 'Visualiza, edita y elimina los usuarios del sistema de Four Parks. Tambien podrás visualizar las operaciones de cada uno.',
-    link: '/admin/usuarios',
-    icon: <User strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
-  },
-]
-
-const FUNCIONARIO_FUNCTIONS = [
-  {
-    title: 'VER ESTADO PUNTO',
-    text: 'Gestiona las reservas actuales del punto.',
-    link: '/admin/parqueaderos/',
-    icon: <ParkingSquare strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
-  },
-  {
-    title: 'VER ESTADISTICAS DE PUNTO',
-    text: 'Ver las estadisticas del punto de parqueadero.',
-    link: '/admin/usuarios',
-    icon: <LineChart strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
+    title: 'GESTIONAR TIPO DE RECURSOS',
+    text: 'Gestiona todos los tipos de recursos del sistema.',
+    link: '/admin/tipos-recursos',
+    icon: <BookType strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
   },
 ]
 

@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -21,15 +21,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
-import { useRef, useState } from 'react'
-import { useUser } from '@/services/useUser'
-import Link from 'next/link'
+import { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { EditUserDialog } from '../_components/EditUserDialog'
 import { Dialog } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
-import { AdminDialog } from '../_components/UnitDialog'
+import { UnitDialog } from '../_components/UnitDialog'
 import { UnidadInterface } from '@/lib/interfaces/unidad.interface'
 import { useUnit } from '@/services/useUnit'
 
@@ -38,14 +34,14 @@ const UsersTableColumns = ({ data }: { data: UnidadInterface[] }) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  // const { deleteUnit } = useUnit()
+  const { deleteUnit } = useUnit()
   const { data: session } = useSession()
   const router = useRouter()
   const columns: ColumnDef<UnidadInterface>[] = [
     {
-      accessorKey: 'idUnidad',
+      accessorKey: 'id',
       header: 'ID',
-      cell: ({ row }) => <div>{row.getValue('idUnidad')}</div>,
+      cell: ({ row }) => <div>{row.getValue('id')}</div>,
     },
     {
       accessorKey: 'nombre',
@@ -100,7 +96,7 @@ const UsersTableColumns = ({ data }: { data: UnidadInterface[] }) => {
                 <DropdownMenuItem
                   className='cursor-pointer'
                   onClick={() => {
-                    if (unit?.idUnidad) navigator.clipboard.writeText(unit.idUnidad + '')
+                    if (unit?.id) navigator.clipboard.writeText(unit.id + '')
                   }}
                 >
                   Copiar ID de unidad
@@ -108,12 +104,12 @@ const UsersTableColumns = ({ data }: { data: UnidadInterface[] }) => {
 
                 <DropdownMenuSeparator />
                 <div className='relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-muted'>
-                  <AdminDialog unit={unit} />
+                  <UnitDialog unit={unit} />
                 </div>
 
                 <DropdownMenuItem
                   onClick={() => {
-                    if (unit?.idUnidad) deleteUnit(unit.idUnidad)
+                    if (unit?.id) deleteUnit(unit)
                   }}
                   className='cursor-pointer'
                 >
