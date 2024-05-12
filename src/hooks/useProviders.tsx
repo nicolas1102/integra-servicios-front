@@ -4,8 +4,9 @@ import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from '@/hooks/useThemeProvider'
 import { UserLocationContext } from '@/context/UserLocationContext'
 import { useEffect, useState } from 'react'
-import { UserProvider } from '@/hooks/useUser'
-import { ParkingProvider } from '@/hooks/useParking'
+import { UserProvider } from '@/services/useUser'
+import { ParkingProvider } from '@/services/useParking'
+import { UnitProvider } from '../services/useUnit'
 
 interface Props {
   children: React.ReactNode
@@ -42,7 +43,7 @@ function Providers({ children }: Props) {
       >
         <UserLocationContext.Provider value={{ userLocation, setUserLocation }}>
           <UserProvider>
-            <ParkingProvider>{children}</ParkingProvider>
+            <UnitProvider>{children}</UnitProvider>
           </UserProvider>
         </UserLocationContext.Provider>
       </ThemeProvider>

@@ -12,9 +12,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import PrimaryButton from '@/components/CustomButtons/PrimaryButton'
-import { UserInterface } from '@/lib/interfaces/user.interface'
+import { UserInterface } from '@/lib/interfaces/usuario.interface'
 import { useEffect, useState } from 'react'
-import { useUser } from '@/hooks/useUser'
+import { useUser } from '@/services/useUser'
 import {
   EditUserFromManagerValidator,
   EditPersonalInfoValidator,

@@ -2,14 +2,14 @@
 
 import { useSession } from 'next-auth/react'
 import AdminFunctionItem from './_components/AdminFunctionItem'
-import { LineChart, ParkingSquare, User } from 'lucide-react'
+import { LineChart, ParkingSquare, University, User } from 'lucide-react'
 
-const GERENTE_FUNCTIONS = [
+const FUNCTIONS = [
   {
-    title: 'GESTIONAR PARQUEADEROS',
-    text: 'Gestiona todos los parqueaderos del sistema de Four Parks. Tambien podrás generar reportes de cada uno de los puntos.',
-    link: '/admin/parqueaderos',
-    icon: <ParkingSquare strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
+    title: 'GESTIONAR UNIDADES',
+    text: 'Gestiona todos las unidades del sistema.',
+    link: '/admin/unidades',
+    icon: <University strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
   },
   {
     title: 'GESTIONAR USUARIOS',
@@ -40,34 +40,21 @@ const Page = () => {
     <div className='max-h-full flex flex-col gap-y-10 m-10'>
       <div className='flex flex-col'>
         <div className='pb-7'>
-          <h1 className='text-4xl tracking-widest pb-1'>
-            MENU {session?.rol === 'GERENTE' ? 'GERENTE' : 'ADMINISTRADOR'}
-          </h1>
+          <h1 className='text-4xl tracking-widest pb-1'>MENU ADMINISTRADOR</h1>
           <p className='text-base uppercase'>
-            Este es el menu de {session?.rol}.
+            Este es el menu de administrador.
           </p>
         </div>
         <div className='flex flex-row flex-wrap gap-5'>
-          {session?.rol === 'ADMINISTRADOR' &&
-            FUNCIONARIO_FUNCTIONS.map((item, index) => (
-              <AdminFunctionItem
-                title={item.title}
-                text={item.text}
-                link={item.link}
-                icon={item.icon}
-                key={index}
-              />
-            ))}
-          {session?.rol === 'GERENTE' &&
-            GERENTE_FUNCTIONS.map((item, index) => (
-              <AdminFunctionItem
-                title={item.title}
-                text={item.text}
-                link={item.link}
-                icon={item.icon}
-                key={index}
-              />
-            ))}
+          {FUNCTIONS.map((item, index) => (
+            <AdminFunctionItem
+              title={item.title}
+              text={item.text}
+              link={item.link}
+              icon={item.icon}
+              key={index}
+            />
+          ))}
         </div>
       </div>
     </div>

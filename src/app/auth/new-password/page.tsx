@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
-import { useUser } from '@/hooks/useUser'
+import { useUser } from '@/services/useUser'
 import Separator from '@/components/Separator'
 import PrimaryButton from '@/components/CustomButtons/PrimaryButton'
 

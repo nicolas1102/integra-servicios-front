@@ -4,7 +4,7 @@ import { User as UserIcons } from 'lucide-react'
 import Loader from '@/components/Loader'
 import { UsersTable } from './_components/UsersTable'
 import { useEffect, useState } from 'react'
-import { useUser } from '@/hooks/useUser'
+import { useUser } from '@/services/useUser'
 import { AdminDialog } from './_components/AdminDialog'
 import NoResults from '@/components/NoResults'
 

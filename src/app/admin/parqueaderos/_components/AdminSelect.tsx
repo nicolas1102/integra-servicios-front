@@ -9,9 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { UserInterface } from '@/lib/interfaces/user.interface'
+import { UserInterface } from '@/lib/interfaces/usuario.interface'
 import { cn } from '@/lib/utils'
-import { useUser } from '@/hooks/useUser'
+import { useUser } from '@/services/useUser'
 import { useEffect, useState } from 'react'
 import { FieldError, UseFormSetValue } from 'react-hook-form'
 

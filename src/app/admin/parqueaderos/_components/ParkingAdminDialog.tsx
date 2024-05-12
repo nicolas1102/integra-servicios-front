@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { ParkingInterface } from '@/lib/interfaces/parking.interface'
-import { useParking } from '@/hooks/useParking'
+import { useParking } from '@/services/useParking'
 import {
   ParkingAdminValidator,
   TParkingAdminValidator,

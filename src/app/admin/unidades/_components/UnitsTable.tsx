@@ -19,24 +19,18 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { UserInterface } from '@/lib/interfaces/usuario.interface'
-import UsersTableColumns from '../_lib/UsersTableColumns'
+import UnitsTableColumns from '../_lib/UnitsTableColumns'
 import { useState } from 'react'
 import { UserFiltersDialog } from './UserFiltersDialog'
+import { UnidadInterface } from '@/lib/interfaces/unidad.interface'
 
-export function UsersTable({
-  data,
-  role,
-  setRole,
-}: {
-  data: UserInterface[]
-  role: string
-  setRole: (role: string) => void
-}) {
-  const { table, columns } = UsersTableColumns({ data })
+export function UnitsTable({ data }: { data: UnidadInterface[] }) {
+
+  const { table, columns } = UnitsTableColumns({ data })
   return (
     <div className='w-full gap-2'>
       <div className='flex items-center py-4'>
-        <UserFiltersDialog table={table} role={role} setRole={setRole} />
+        {/* <UserFiltersDialog table={table} role={role} setRole={setRole} /> */}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

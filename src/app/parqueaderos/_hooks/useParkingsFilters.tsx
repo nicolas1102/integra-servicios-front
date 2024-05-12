@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { useParking } from '@/hooks/useParking'
+import { useParking } from '@/services/useParking'
 
 export function useParkingsFilters() {
   // const [parkingLots, setParkingLots] = useState<ParkingInterface[]>([])

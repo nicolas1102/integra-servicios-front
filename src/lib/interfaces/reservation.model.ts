@@ -1,6 +1,6 @@
 import { InvoiceInterface } from './invoice.interface'
 import { ParkingSlotInterface } from './parkingSlot.interface'
-import { UserInterface } from './user.interface'
+import { UserInterface } from './usuario.interface'
 import { VehicleTypeInterface } from './vehicleType.interface'
 
 export interface Reservation {

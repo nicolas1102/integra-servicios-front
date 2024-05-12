@@ -5,7 +5,7 @@ export default withAuth(
   function middleware(request: NextRequestWithAuth) {
 
     if (request.nextUrl.pathname.startsWith("/admin")
-      && request.nextauth.token?.role !== "admin"
+      && request.nextauth.token?.rol !== "admin"
     ) {
       return NextResponse.rewrite(
         new URL("/auth/unauthorized", request.url)
@@ -13,7 +13,7 @@ export default withAuth(
     }
 
     if (request.nextUrl.pathname.startsWith("/recursos")
-      && request.nextauth.token?.role !== "user"
+      && request.nextauth.token?.rol !== "user"
     ) {
       return NextResponse.rewrite(
         new URL("/auth/unauthorized", request.url)

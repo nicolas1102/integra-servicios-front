@@ -1,7 +1,10 @@
 'use client'
 import {
+  Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -14,7 +17,11 @@ import { useEffect, useState } from 'react'
 import { useUser } from '@/services/useUser'
 import {
   EditUserFromManagerValidator,
+  EditPersonalInfoValidator,
   TEditUserFromManagerValidator,
+  TEditPersonalInfoValidator,
+  TCreateAdminFromManagerValidator,
+  CreateAdminFromManagerValidator,
 } from '@/lib/validators/user-validators'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -23,22 +30,32 @@ import { useRouter } from 'next/navigation'
 import Separator from '@/components/Separator'
 import { Toggle } from '@/components/ui/toggle'
 import { Check, X } from 'lucide-react'
+import FloatingButton from '@/components/CustomButtons/FloatingButton'
+import { Button } from '@/components/ui/button'
+import { ParkingInterface } from '@/lib/interfaces/parking.interface'
+import { ParkingSelect } from './ParkingSelect'
 
-export function EditUserDialog({ user }: { user: UserInterface }) {
+export function AdminDialog({ admin }: { admin?: UserInterface }) {
   const router = useRouter()
-  const [accountActiveState, setAccountActiveState] = useState(user.accountActive)
-  const [accountBlockedState, setAccountBlockedState] = useState(user.accountBlocked)
-  const { updateUser, isLoading } = useUser()
+  const [parking, setParking] = useState<ParkingInterface | null>(null)
+  const [accountActive, setAccountActive] = useState(
+    admin?.accountActive ? true : false
+  )
+  const [accountBlocked, setAccountBlocked] = useState(
+    admin?.accountBlocked ? true : false
+  )
+  const { updateUser, isLoading, getUsers } = useUser()
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     getValues,
-  } = useForm<TEditUserFromManagerValidator>({
-    resolver: zodResolver(EditUserFromManagerValidator),
+  } = useForm<TCreateAdminFromManagerValidator>({
+    resolver: zodResolver(CreateAdminFromManagerValidator),
   })
   const onSubmit = async ({
+    email,
     firstName,
     secondName,
     firstLastname,
@@ -46,48 +63,74 @@ export function EditUserDialog({ user }: { user: UserInterface }) {
     accountActive,
     accountBlocked,
     loginAttempts,
-  }: TEditUserFromManagerValidator) => {
-    const userData = {
-      id: user.id,
-      email: user.email,
+    parking,
+  }: TCreateAdminFromManagerValidator) => {
+    const adminData = {
+      email,
       firstName,
       secondName,
       firstLastname,
       secondLastname,
-      accountActive: accountActiveState,
-      accountBlocked: accountBlockedState,
+      accountActive,
+      accountBlocked,
       loginAttempts,
-      roleList: ['USUARIO'],
-      creditCard: user.creditCard,
+      roleList: ['ADMINISTRADOR'],
     } as UserInterface
-    const res = await updateUser(userData)
-    if (res?.status === 200) {
-      router.push('/admin/usuarios')
-      router.refresh()
-    }
+    // const res = admin
+    //   ? await updateUser(adminData)
+    //   : await createUser(parkingData)
+
+    console.log(adminData);
+    console.log(parking);
+    
+
+    // const res = await updateUser(adminData)
+    // if (res?.status === 200) {
+    //   router.push('/admin/usuarios')
+    //   router.refresh()
+    // }
   }
+  useEffect(() => {
+    if (admin) {
+      setValue('email', admin.email)
+      setValue('firstName', admin.firstName)
+      if (admin.secondName) setValue('secondName', admin.secondName)
+      setValue('firstLastname', admin.firstLastname)
+      setValue('secondLastname', admin.secondLastname)
+      setValue('accountActive', admin.accountActive!)
+      setValue('accountBlocked', admin.accountBlocked!)
+      setValue('loginAttempts', admin.loginAttempts!)
+    } else {
+      setValue('loginAttempts', 0)
+    }
+  }, [])
 
   useEffect(() => {
-    setValue('firstName', user.firstName)
-    if (user?.secondName) setValue('secondName', user.secondName)
-    setValue('firstLastname', user.firstLastname)
-    setValue('secondLastname', user.secondLastname)
-    setValue('accountActive', user.accountActive!)
-    setValue('accountBlocked', user.accountBlocked!)
-    setValue('loginAttempts', user.loginAttempts!)
-  }, [])
+    setValue('parking', parking?.name + '')
+  }, [parking])
+
   return (
-    <>
+    <Dialog>
       <DialogTrigger asChild>
-        <span> Editar usuario</span>
+        {!admin ? (
+          <div className='inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 px-4 py-2 absolute top-0 z-10 tracking-widest border hover:bg-yellowFPC-200  dark:hover:bg-yellowFPC-400 dark:hover:text-black hover:border-primary right-2 md:right-0 cursor-pointer'>
+            CREAR UNIDAD
+          </div>
+        ) : (
+          <div className='relative flex cursor-pointer select-none items-center rounded-sm py-1.5 text-sm outline-none transition-colors hover:bg-muted'>
+            <p>Editar unidad</p>
+          </div>
+        )}
       </DialogTrigger>
-      <DialogContent className='sm:max-w-md'>
+      <DialogContent className='sm:max-w-lg'>
         <DialogHeader>
           <DialogTitle>
-            <p className='tracking-widest'>EDITAR USUARIO</p>
+            <p className='tracking-widest'>
+              {!admin ? 'CREAR ADMINISTRADOR' : 'EDITAR ADMINISTRADOR'}
+            </p>
           </DialogTitle>
           <DialogDescription>
-            Aquí puedes editar la información del usuario.
+            Aquí puedes crear un nuevo funcionario en nuestro sistema.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -176,19 +219,25 @@ export function EditUserDialog({ user }: { user: UserInterface }) {
             </div>
 
             <div className='grid gap-1 py-2'>
+              <Label htmlFor='loginAttempts'>Parqueadero</Label>
+              <ParkingSelect
+                parking={parking}
+                setParking={setParking}
+                errors={errors.parking}
+              />
+            </div>
+
+            <div className='grid gap-1 py-2'>
               <Toggle
                 aria-label='Toggle-accountActive'
                 onPressedChange={() => {
-                  setValue(
-                    'accountActive',
-                    user.accountActive ? user.accountActive : false
-                  )
-                  setAccountActiveState(!accountActiveState)
+                  setValue('accountActive', !getValues('accountActive'))
+                  setAccountActive(!accountActive)
                 }}
-                defaultPressed={accountActiveState}
+                defaultPressed={accountActive}
                 className='border space-x-2'
               >
-                {accountActiveState ? <Check size={19} /> : <X size={19} />}
+                {accountActive ? <Check size={19} /> : <X size={19} />}
                 <p>CUENTA ACTIVA</p>
               </Toggle>
             </div>
@@ -198,14 +247,14 @@ export function EditUserDialog({ user }: { user: UserInterface }) {
                 onPressedChange={() => {
                   setValue(
                     'accountBlocked',
-                    accountBlockedState ? accountBlockedState : false
+                    accountBlocked ? accountBlocked : false
                   )
-                  setAccountBlockedState(!accountBlockedState)
+                  setAccountBlocked(!accountBlocked)
                 }}
-                defaultPressed={accountBlockedState}
+                defaultPressed={accountBlocked}
                 className='border space-x-2'
               >
-                {accountBlockedState ? <Check size={19} /> : <X size={19} />}
+                {accountBlocked ? <Check size={19} /> : <X size={19} />}
                 <p className='tracking-widest'>CUENTA BLOQUEADA</p>
               </Toggle>
             </div>
@@ -217,6 +266,6 @@ export function EditUserDialog({ user }: { user: UserInterface }) {
           </div>
         </form>
       </DialogContent>
-    </>
+    </Dialog>
   )
 }

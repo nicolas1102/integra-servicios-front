@@ -18,7 +18,7 @@ import Separator from '@/components/Separator'
 import { Toggle } from '@/components/ui/toggle'
 import { Check, CircleHelp, X } from 'lucide-react'
 import { ParkingInterface } from '@/lib/interfaces/parking.interface'
-import { useParking } from '@/hooks/useParking'
+import { useParking } from '@/services/useParking'
 import {
   ParkingValidator,
   TParkingValidator,

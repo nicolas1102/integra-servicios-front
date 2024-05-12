@@ -21,9 +21,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { UserInterface } from '@/lib/interfaces/user.interface'
+import { UserInterface } from '@/lib/interfaces/usuario.interface'
 import { useRef, useState } from 'react'
-import { useUser } from '@/hooks/useUser'
+import { useUser } from '@/services/useUser'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { EditUserDialog } from '../_components/EditUserDialog'
