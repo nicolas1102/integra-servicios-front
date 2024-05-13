@@ -1,9 +1,9 @@
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
+import { UsuarioInterface } from '@/lib/interfaces/usuario.interface'
 import { auth } from '@/lib/firebase/clientApp';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { signIn, SignInResponse } from 'next-auth/react';
 
-export const createUserService = async (user: UserInterface) => {
+export const createUserService = async (user: UsuarioInterface) => {
   const res = await createUserWithEmailAndPassword(auth, user.correo, user.contraseña!)
   return res
 }

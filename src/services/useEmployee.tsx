@@ -1,6 +1,6 @@
 'use client'
 
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
+import { UsuarioInterface } from '@/lib/interfaces/usuario.interface'
 import {
   createContext,
   Dispatch,
@@ -16,11 +16,11 @@ import { signIn, SignInResponse } from 'next-auth/react'
 import { auth } from '@/lib/firebase/clientApp'
 
 interface UserContextType {
-  users: UserInterface[]
-  setUsers: Dispatch<SetStateAction<UserInterface[]>>
+  users: UsuarioInterface[]
+  setUsers: Dispatch<SetStateAction<UsuarioInterface[]>>
   isLoading: boolean
   setIsLoading: (isLoading: boolean) => void
-  createUser: (user: UserInterface) => Promise<UserCredential | undefined>
+  createUser: (user: UsuarioInterface) => Promise<UserCredential | undefined>
   // getUsers: () => Promise<void>
   logInUser: (
     email: string,
@@ -40,12 +40,12 @@ export const useUser = () => {
 }
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [users, setUsers] = useState<UserInterface[]>([])
+  const [users, setUsers] = useState<UsuarioInterface[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
 
-  const createUser = async (user: UserInterface) => {
+  const createUser = async (user: UsuarioInterface) => {
     try {
       setIsLoading(true)
       const res = await createUserWithEmailAndPassword(

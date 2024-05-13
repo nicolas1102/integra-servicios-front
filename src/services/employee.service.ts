@@ -1,4 +1,4 @@
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
+import { UsuarioInterface } from '@/lib/interfaces/usuario.interface'
 import { auth, COLLECTION_NAMES, db } from '@/lib/firebase/clientApp';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { signIn, SignInResponse } from 'next-auth/react';

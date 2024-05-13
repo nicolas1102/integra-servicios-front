@@ -2,12 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import AdminFunctionItem from './_components/AdminFunctionItem'
-import {
-  BookType,
-  Computer,
-  Laptop,
-  University,
-} from 'lucide-react'
+import { BookType, Computer, Laptop, NotebookPen, University } from 'lucide-react'
 
 const FUNCTIONS = [
   {
@@ -27,6 +22,12 @@ const FUNCTIONS = [
     text: 'Gestiona todos los recursos del sistema.',
     link: '/admin/recursos',
     icon: <Laptop strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
+  },
+  {
+    title: 'GESTIONAR RESERVAS',
+    text: 'Gestiona todas las reservas hechas por los usuarios del sistema.',
+    link: '/admin/reservas',
+    icon: <NotebookPen strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
   },
 ]
 

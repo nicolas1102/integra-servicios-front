@@ -19,7 +19,7 @@ import Separator from '@/components/Separator'
 import { toast } from 'sonner'
 import PrimaryButton from '@/components/CustomButtons/PrimaryButton'
 import { useUser } from '@/services/useUser'
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
+import { UsuarioInterface } from '@/lib/interfaces/usuario.interface'
 import { useEffect } from 'react'
 import { CreditCard } from '@/lib/interfaces/creditCard.model'
 import {
@@ -54,7 +54,7 @@ const Page = () => {
       // name,
       // lastname,
       contraseña,
-    } as UserInterface
+    } as UsuarioInterface
     createUser(userData)
   }
 

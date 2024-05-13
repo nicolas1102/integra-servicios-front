@@ -9,6 +9,7 @@ const COLLECTION_NAMES = {
   UNIT: 'Unidad',
   RESOURCE_TYPE: 'TipoRecurso',
   RESOURCE: 'Recurso',
+  BOOKING: 'Reserva',
 }
 
 // TODO: Add SDKs for Firebase products that you want to use

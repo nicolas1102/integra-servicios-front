@@ -1,12 +1,7 @@
-import { CreditCard } from './creditCard.model'
-import { RoleType } from './role.interface'
-
-export interface UserInterface {
-  id?: number
+export interface UsuarioInterface {
+  id?: string
   correo: string
   contraseña?: string
-  ip?: string
-  nombre?: string
-  apellido?: string
-  rol: string
+  nombres?: string
+  apellidos?: string
 }
