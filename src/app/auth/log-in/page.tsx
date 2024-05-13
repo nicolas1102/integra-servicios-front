@@ -17,20 +17,10 @@ import FloatingButton from '@/components/CustomButtons/FloatingButton'
 import { ArrowRight, Check, X } from 'lucide-react'
 import PrimaryButton from '@/components/CustomButtons/PrimaryButton'
 import { useToast } from '@/components/ui/use-toast'
-import { signIn } from 'next-auth/react'
 import { useUser } from '@/services/useUser'
 import Separator from '@/components/Separator'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { Suspense, useEffect, useRef, useState } from 'react'
-import { useTheme } from 'next-themes'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Theme } from 'next-auth'
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth'
-import { auth } from '@/lib/firebase/clientApp'
+import { useEffect, useState } from 'react'
 import { Toggle } from '@/components/ui/toggle'
 
 const Page = () => {
@@ -57,13 +47,13 @@ const Page = () => {
     esAdmin,
   }: TAuthCredentialsValidator) => {
     try {
-      // if (!stateCaptcha) {
-      //   toast({
-      //     variant: 'destructive',
-      //     title: 'Recuerda llenar el captcha.',
-      //   })
-      //   return
-      // }
+      if (!stateCaptcha) {
+        toast({
+          variant: 'destructive',
+          title: 'Recuerda llenar el captcha.',
+        })
+        return
+      }
 
       setIsLoading(true)
 

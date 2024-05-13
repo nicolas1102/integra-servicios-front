@@ -43,13 +43,23 @@ const BookingsTableColumns = ({ data }: { data: ReservaInterface[] }) => {
       header: 'Recurso',
       cell: ({ row }) => {
         const booking = row.original
-        return (
-          <div>
-            {booking.recurso?.nombre +
-              ' | ' +
-              booking.recurso?.tRecurso?.nombre}
-          </div>
-        )
+        return <div>{booking.recurso?.nombre}</div>
+      },
+    },
+    {
+      accessorKey: 'tipoRecurso',
+      header: 'Tipo Recuso',
+      cell: ({ row }) => {
+        const booking = row.original
+        return <div>{booking.recurso?.tRecurso?.nombre}</div>
+      },
+    },
+    {
+      accessorKey: 'unidad',
+      header: 'Unidad',
+      cell: ({ row }) => {
+        const booking = row.original
+        return <div>{booking.recurso?.tRecurso?.unidad?.nombre}</div>
       },
     },
     {
@@ -59,10 +69,7 @@ const BookingsTableColumns = ({ data }: { data: ReservaInterface[] }) => {
         const booking = row.original
         return (
           <div>
-            <p>
-              <span className='italic'>({booking.usuario?.id})</span>{' '}
-              {booking.usuario?.nombres + ' ' + booking.usuario?.apellidos}
-            </p>
+            {booking.usuario?.nombres + ' ' + booking.usuario?.apellidos}
           </div>
         )
       },
@@ -123,6 +130,28 @@ const BookingsTableColumns = ({ data }: { data: ReservaInterface[] }) => {
                 >
                   Copiar ID de recurso
                 </DropdownMenuItem>{' '}
+                <DropdownMenuItem
+                  className='cursor-pointer'
+                  onClick={() => {
+                    if (bookings?.id)
+                      navigator.clipboard.writeText(
+                        bookings.recurso?.tRecurso?.id + ''
+                      )
+                  }}
+                >
+                  Copiar ID de tipo recurso
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className='cursor-pointer'
+                  onClick={() => {
+                    if (bookings?.id)
+                      navigator.clipboard.writeText(
+                        bookings.recurso?.tRecurso?.unidad?.id + ''
+                      )
+                  }}
+                >
+                  Copiar ID de unidad
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   className='cursor-pointer'
                   onClick={() => {

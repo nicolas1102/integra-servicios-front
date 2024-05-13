@@ -26,10 +26,7 @@ export function ResourceTypesTable({ data }: { data: TipoRecursoInterface[] }) {
       <div className='flex items-center py-4'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant='outline'
-              className='border border-blueFPC-400'
-            >
+            <Button variant='outline' className='border border-blueFPC-400'>
               <p className='tracking-widest'>COLUMNAS</p>
               <ChevronDown className='ml-2 h-4 w-4' />
             </Button>

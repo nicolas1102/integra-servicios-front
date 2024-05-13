@@ -23,6 +23,7 @@ import { ReservaInterface } from '@/lib/interfaces/reserva.interface'
 import { UnidadInterface } from '@/lib/interfaces/unidad.interface'
 import { UsuarioInterface } from '@/lib/interfaces/usuario.interface'
 import { RecursoInterface } from '@/lib/interfaces/recurso.interface'
+import { TipoRecursoInterface } from '@/lib/interfaces/tipoRecurso.interface'
 
 interface BookingContextType {
   bookings: ReservaInterface[]
@@ -86,7 +87,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
         for (const bookingDoc of snapshot.docs) {
           const booking = bookingDoc.data() as ReservaInterface
 
-          // obtenemos usuario para agregar a reserva
+          // obtenemos usuario para agregar a Reserva
           const userRef = doc(
             db,
             COLLECTION_NAMES.USER,
@@ -94,7 +95,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
           )
           const userDoc = await getDoc(userRef)
 
-          // obtenemos recurso para agregar a reserva
+          // obtenemos recurso para agregar a reserva y poder buscar y agregar tipo recurso y unidad
           const resourceRef = doc(
             db,
             COLLECTION_NAMES.RESOURCE,
@@ -102,7 +103,42 @@ export function BookingProvider({ children }: { children: ReactNode }) {
           )
           const resourceDoc = await getDoc(resourceRef)
 
-          // unimos todo
+          // obtenemos tipo recurso para agregar a recurso
+          const resourceTypeRef = doc(
+            db,
+            COLLECTION_NAMES.RESOURCE_TYPE,
+            resourceDoc.data()?.idTRecurso as string
+          )
+          const resourceTypeDoc = await getDoc(resourceTypeRef)
+
+          // obtenemos unidad para agregar a tipo de recurso
+          const unitRef = doc(
+            db,
+            COLLECTION_NAMES.UNIT,
+            resourceTypeDoc.data()?.idUnidad as string
+          )
+          const unitDoc = await getDoc(unitRef)
+
+          // completamos tipo recurso con unidad
+          const resourceTypeData = {
+            ...resourceTypeDoc.data(),
+            unidad: {
+              ...unitDoc.data(),
+              id: unitDoc.id,
+            } as UnidadInterface,
+            id: resourceTypeDoc.id,
+          } as TipoRecursoInterface
+
+          // completamos recurso con tipo recurso
+          const resourceData = {
+            ...resourceDoc.data(),
+            tRecurso: {
+              ...resourceTypeData,
+            } as TipoRecursoInterface,
+            id: resourceDoc.id,
+          } as RecursoInterface
+
+          // unimos recurso terminado a reserva
           bookingsData.push({
             ...booking,
             id: bookingDoc.id,
@@ -110,10 +146,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               ...userDoc.data(),
               id: userDoc.id,
             } as UsuarioInterface,
-            recurso: {
-              ...resourceDoc.data(),
-              id: resourceDoc.id,
-            } as RecursoInterface,
+            recurso: resourceData,
           } as ReservaInterface)
         }
         setBookings(bookingsData)
