@@ -1,16 +1,14 @@
 import { UserInterface } from '@/lib/interfaces/usuario.interface'
-import { auth, db } from '@/lib/firebase/clientApp';
+import { auth, COLLECTION_NAMES, db } from '@/lib/firebase/clientApp';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { signIn, SignInResponse } from 'next-auth/react';
 import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
-
-const COLLECTION_NAME = 'Empleado'
 
 export const getOneEmployeeByEmailAndPassword = async (
   correo: string,
   contraseña: string
 ) => {
-  const queryEmployee = query(collection(db, COLLECTION_NAME), where('correo', '==', correo));
+  const queryEmployee = query(collection(db, COLLECTION_NAMES.EMPLOYEE), where('correo', '==', correo));
   const querySnapshot = await getDocs(queryEmployee);
   const employeeData = querySnapshot.docs[0].data();
   if (employeeData) {

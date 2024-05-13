@@ -23,21 +23,17 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useState } from 'react'
 import { Dialog } from '@/components/ui/dialog'
-import { ResourceTypeDialog } from '../_components/ResourceTypeDialog'
-import { TipoRecursoInterface } from '@/lib/interfaces/tipoRecurso.interface'
-import { useResourceType } from '@/services/useResourceType'
+import { ResourceDialog } from '../_components/ResourceDialog'
+import { RecursoInterface } from '@/lib/interfaces/recurso.interface'
+import { useResource } from '@/services/useResource'
 
-const ResourceTypesTableColumns = ({
-  data,
-}: {
-  data: TipoRecursoInterface[]
-}) => {
+const ResourcesTableColumns = ({ data }: { data: RecursoInterface[] }) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  const { deleteResourceType } = useResourceType()
-  const columns: ColumnDef<TipoRecursoInterface>[] = [
+  const { deleteResource } = useResource()
+  const columns: ColumnDef<RecursoInterface>[] = [
     {
       accessorKey: 'id',
       header: 'ID',
@@ -49,30 +45,49 @@ const ResourceTypesTableColumns = ({
       cell: ({ row }) => <div>{row.getValue('nombre')}</div>,
     },
     {
-      accessorKey: 'unidad',
-      header: 'Unidad',
+      accessorKey: 'personas',
+      header: 'Numero Personas',
       cell: ({ row }) => {
-        const resourceType = row.original
-        return <div>{resourceType.unidad?.nombre}</div>
+        const resource = row.original
+        return <div>{resource.caracteristicas.personas}</div>
       },
     },
     {
-      accessorKey: 'diasAtencion',
-      header: 'Días de Atención',
+      accessorKey: 'tRecurso',
+      header: 'Tipo Recurso',
       cell: ({ row }) => {
-        const tipoRecurso = row.original
+        const resource = row.original
+        return <div>{resource.tRecurso?.nombre}</div>
+      },
+    },
+    {
+      accessorKey: 'unit',
+      header: 'Unidad',
+      cell: ({ row }) => {
+        const resource = row.original
+        return <div>{resource.tRecurso?.unidad?.nombre}</div>
+      },
+    },
+    {
+      accessorKey: 'ubicacion',
+      header: 'Ubicación',
+      cell: ({ row }) => {
+        const resource = row.original
+        return <div>{resource.caracteristicas.ubicacion}</div>
+      },
+    },
+    {
+      accessorKey: 'prestado',
+      header: 'Estado',
+      cell: ({ row }) => {
+        const resource = row.original
         return (
           <div>
-            {tipoRecurso.horEntSem
-              ? tipoRecurso.horEntSem.map(
-                  (horario) => horario.dia.slice(0, 3) + '-'
-                )
-              : ''}
-            {tipoRecurso.horFinSem
-              ? tipoRecurso.horFinSem.map(
-                  (horario) => horario.dia.slice(0, 3) + '-'
-                )
-              : ''}
+            {resource.prestado ? (
+              <p className='text-redFPC-400'>Prestado</p>
+            ) : (
+              'Disponible'
+            )}
           </div>
         )
       },
@@ -81,7 +96,7 @@ const ResourceTypesTableColumns = ({
       id: 'actions',
       enableHiding: false,
       cell: ({ row }) => {
-        const resourceType = row.original
+        const resource = row.original
         return (
           <Dialog>
             <DropdownMenu>
@@ -96,26 +111,26 @@ const ResourceTypesTableColumns = ({
                 <DropdownMenuItem
                   className='cursor-pointer'
                   onClick={() => {
-                    if (resourceType?.id)
-                      navigator.clipboard.writeText(resourceType.id + '')
+                    if (resource?.id)
+                      navigator.clipboard.writeText(resource.id + '')
                   }}
                 >
-                  Copiar ID de tipoRecurso
+                  Copiar ID de recurso
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
                 <div className='relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-muted'>
-                  <ResourceTypeDialog resourceType={resourceType} />
+                  <ResourceDialog resource={resource} />
                 </div>
 
                 <DropdownMenuItem
                   onClick={() => {
-                    if (resourceType?.id) deleteResourceType(resourceType)
+                    if (resource?.id) deleteResource(resource)
                   }}
                   className='cursor-pointer'
                 >
                   <span className='text-red-600 font-medium'>
-                    Eliminar tipoRecurso
+                    Eliminar recurso
                   </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -148,4 +163,4 @@ const ResourceTypesTableColumns = ({
   return { table, columns }
 }
 
-export default ResourceTypesTableColumns
+export default ResourcesTableColumns

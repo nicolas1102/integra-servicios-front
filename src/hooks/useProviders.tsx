@@ -2,38 +2,16 @@
 
 import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from '@/hooks/useThemeProvider'
-import { UserLocationContext } from '@/context/UserLocationContext'
-import { useEffect, useState } from 'react'
 import { UserProvider } from '@/services/useUser'
-import { ParkingProvider } from '@/services/useParking'
 import { UnitProvider } from '../services/useUnit'
 import { ResourceTypeProvider } from '@/services/useResourceType'
+import { ResourceProvider } from '@/services/useResource'
 
 interface Props {
   children: React.ReactNode
 }
 
-interface userLocationInterface {
-  lat: number
-  lng: number
-}
-
 function Providers({ children }: Props) {
-  const [userLocation, setUserLocation] = useState<userLocationInterface>({
-    lat: 4.629618184116378,
-    lng: -74.06571387389643,
-  })
-  const getUserLocation = async () => {
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      setUserLocation({
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-      })
-    })
-  }
-  useEffect(() => {
-    getUserLocation()
-  }, [])
   return (
     <SessionProvider>
       <ThemeProvider
@@ -42,13 +20,13 @@ function Providers({ children }: Props) {
         enableSystem
         disableTransitionOnChange
       >
-        <UserLocationContext.Provider value={{ userLocation, setUserLocation }}>
-          <UserProvider>
-            <UnitProvider>
-              <ResourceTypeProvider>{children}</ResourceTypeProvider>
-            </UnitProvider>
-          </UserProvider>
-        </UserLocationContext.Provider>
+        <UserProvider>
+          <UnitProvider>
+            <ResourceTypeProvider>
+              <ResourceProvider>{children}</ResourceProvider>
+            </ResourceTypeProvider>
+          </UnitProvider>
+        </UserProvider>
       </ThemeProvider>
     </SessionProvider>
   )

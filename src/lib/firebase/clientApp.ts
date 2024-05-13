@@ -3,6 +3,14 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore';
 
+const COLLECTION_NAMES = {
+  USER: 'Usuario',
+  EMPLOYEE: 'Empleado',
+  UNIT: 'Unidad',
+  RESOURCE_TYPE: 'TipoRecurso',
+  RESOURCE: 'Recurso',
+}
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,4 +35,5 @@ export {
   app,
   auth,
   db,
+  COLLECTION_NAMES,
 }

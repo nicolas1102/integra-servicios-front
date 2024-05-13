@@ -15,12 +15,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import ResourceTypesTableColumns from '../_lib/ResourceTypesTableColumns'
-import { TipoRecursoInterface } from '@/lib/interfaces/tipoRecurso.interface'
+import { RecursoInterface } from '@/lib/interfaces/recurso.interface'
+import ResourcesTableColumns from '../_lib/ResourcesTableColumns'
 
-export function ResourceTypesTable({ data }: { data: TipoRecursoInterface[] }) {
+export function ResourcesTable({ data }: { data: RecursoInterface[] }) {
 
-  const { table, columns } = ResourceTypesTableColumns({ data })
+  const { table, columns } = ResourcesTableColumns({ data })
   return (
     <div className='w-full gap-2'>
       <div className='flex items-center py-4'>

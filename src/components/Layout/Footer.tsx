@@ -9,7 +9,7 @@ const Footer = async () => {
       <div className='grid grid-cols-12 w-full pb-14 border-t-2 border-yellowFPC-400 py-8'>
         <div className='col-span-3'>
           <p className='text-2xl tracking-tighter font-bold leading-none'>
-            IntregraServios<span className='text-yellowFPC-400'>Colo</span>
+            IntregraServicios<span className='text-yellowFPC-400'>Colo</span>
             <span className='text-blueFPC-400'>mb</span>
             <span className='text-redFPC-400'>ia</span>
           </p>

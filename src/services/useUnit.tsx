@@ -1,11 +1,6 @@
 'use client'
 
 import {
-  createUserService,
-  getAuthorizedUserRequest,
-} from '@/services/users.service'
-import { UserInterface } from '@/lib/interfaces/usuario.interface'
-import {
   createContext,
   Dispatch,
   ReactNode,
@@ -15,9 +10,6 @@ import {
 } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
-import { AxiosResponse } from 'axios'
-import { UserCredential } from 'firebase/auth'
-import { SignInResponse } from 'next-auth/react'
 import {
   addDoc,
   collection,
@@ -25,14 +17,11 @@ import {
   doc,
   getDoc,
   onSnapshot,
-  query,
   updateDoc,
   where,
 } from 'firebase/firestore'
 import { UnidadInterface } from '@/lib/interfaces/unidad.interface'
-import { db } from '@/lib/firebase/clientApp'
-
-const COLLECTION_NAME = 'Unidad'
+import { COLLECTION_NAMES, db } from '@/lib/firebase/clientApp'
 
 interface UnitContextType {
   units: UnidadInterface[]
@@ -65,7 +54,7 @@ export function UnitProvider({ children }: { children: ReactNode }) {
   const createUnit = async (unit: UnidadInterface) => {
     try {
       setIsLoading(true)
-      const unitRef = collection(db, COLLECTION_NAME)
+      const unitRef = collection(db, COLLECTION_NAMES.UNIT)
       const unitData = await addDoc(unitRef, unit)
       toast({
         title: 'Unidad creada con exito!',
@@ -94,7 +83,7 @@ export function UnitProvider({ children }: { children: ReactNode }) {
   const getUnits = async () => {
     setIsLoading(true)
     try {
-      const documents = collection(db, COLLECTION_NAME)
+      const documents = collection(db, COLLECTION_NAMES.UNIT)
       onSnapshot(documents, async (snapshot) => {
         let unitsData: UnidadInterface[] = []
         for (const doc of snapshot.docs) {
@@ -126,7 +115,7 @@ export function UnitProvider({ children }: { children: ReactNode }) {
   const updateUnit = async (unit: UnidadInterface) => {
     setIsLoading(true)
     try {
-      const unitRef = doc(db, COLLECTION_NAME, unit.id!)
+      const unitRef = doc(db, COLLECTION_NAMES.UNIT, unit.id!)
       await updateDoc(unitRef, { ...unit })
       toast({
         title: 'Se actualizó la unidad con éxito!',
@@ -156,7 +145,7 @@ export function UnitProvider({ children }: { children: ReactNode }) {
   const deleteUnit = async (unit: UnidadInterface) => {
     setIsLoading(true)
     try {
-      const unitRef = doc(db, COLLECTION_NAME, unit.id!)
+      const unitRef = doc(db, COLLECTION_NAMES.UNIT, unit.id!)
       await deleteDoc(unitRef)
       toast({
         title: 'Se eliminó la unidad con éxito!',
@@ -183,7 +172,7 @@ export function UnitProvider({ children }: { children: ReactNode }) {
   }
 
   const getOneUnit = async (id: string) => {
-    const unitRef = doc(db, COLLECTION_NAME, id)
+    const unitRef = doc(db, COLLECTION_NAMES.UNIT, id)
     const unit = await getDoc(unitRef)
     if (unit.exists()) {
       return unit.data() as UnidadInterface

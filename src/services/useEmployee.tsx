@@ -11,7 +11,6 @@ import {
 } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
-import { AxiosResponse } from 'axios'
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth'
 import { signIn, SignInResponse } from 'next-auth/react'
 import { auth } from '@/lib/firebase/clientApp'

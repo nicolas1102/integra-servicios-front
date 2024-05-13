@@ -100,7 +100,7 @@ const ResourceTypesTableColumns = ({
                       navigator.clipboard.writeText(resourceType.id + '')
                   }}
                 >
-                  Copiar ID de tipoRecurso
+                  Copiar ID de tipo de recurso
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
@@ -115,7 +115,7 @@ const ResourceTypesTableColumns = ({
                   className='cursor-pointer'
                 >
                   <span className='text-red-600 font-medium'>
-                    Eliminar tipoRecurso
+                    Eliminar tipo de recurso
                   </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

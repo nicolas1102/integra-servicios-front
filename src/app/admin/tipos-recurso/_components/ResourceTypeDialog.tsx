@@ -332,7 +332,7 @@ export function ResourceTypeDialog({
               </div>
             </div>
             <div className='grid gap-1 py-1'>
-              <Label htmlFor='horEntSemVier'>Horario Lunes</Label>
+              <Label htmlFor='horEntSemVier'>Horario Viernes</Label>
               <div className='grid gap-2 justify-around grid-cols-2'>
                 <Input
                   {...register('horEntSemVierInicio')}
@@ -362,7 +362,7 @@ export function ResourceTypeDialog({
               </div>
             </div>
             <div className='grid gap-1 py-1'>
-              <Label htmlFor='horFinSemDog'>Horario Doming0</Label>
+              <Label htmlFor='horFinSemDog'>Horario Domingo</Label>
               <div className='grid gap-2 justify-around grid-cols-2'>
                 <Input
                   {...register('horFinSemDogInicio')}
@@ -378,7 +378,7 @@ export function ResourceTypeDialog({
             </div>
 
             <PrimaryButton
-              text={resourceType ? 'CONFIRMAR CAMBIOS UNIDAD' : 'CREAR UNIDAD'}
+              text={resourceType ? 'CONFIRMAR CAMBIOS TIPO RECURSO' : 'CREAR TIPO RECURSO'}
               isLoading={isLoading}
             />
           </div>

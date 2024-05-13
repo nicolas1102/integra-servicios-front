@@ -2,42 +2,42 @@
 
 import { BookType } from 'lucide-react'
 import Loader from '@/components/Loader'
-import { ResourceTypesTable } from './_components/ResourceTypesTable'
+import { ResourcesTable } from './_components/ResourcesTable'
 import { useEffect } from 'react'
-import { ResourceTypeDialog } from './_components/ResourceTypeDialog'
+import { ResourceDialog } from './_components/ResourceDialog'
 import NoResults from '@/components/NoResults'
-import { useResourceType } from '@/services/useResourceType'
+import { useResource } from '@/services/useResource'
 
 const Page = () => {
-  const { resourceTypes, isLoading, getResourceTypes } =
-    useResourceType()
+  const { resources, isLoading, getResources } =
+    useResource()
 
   useEffect(() => {
-    const fetchResourceTypes = async () => {
-      await getResourceTypes()
+    const fetchResources = async () => {
+      await getResources()
     }
-    fetchResourceTypes()
+    fetchResources()
   }, [])
 
   return (
     <div className=' flex flex-col relative m-10'>
-      <ResourceTypeDialog />
+      <ResourceDialog />
       {isLoading ? (
         <Loader />
-      ) : resourceTypes.length === 0 ? (
+      ) : resources.length === 0 ? (
         <NoResults redirection='/admin' />
       ) : (
         <>
           <div className=' flex flex-col gap-y-2'>
             <h1 className='text-3xl font-normal tracking-wider text-primary sm:text-4xl inline-flex'>
               <BookType className='h-9 w-9 mt-1 mr-2' />
-              TIPOS DE RECURSO
+              RECURSOS
             </h1>
             <p className='text-sm tracking-wider'>
-              Gestiona todos los tipos de recurso.
+              Gestiona todos los recursos.
             </p>
           </div>
-          <ResourceTypesTable data={resourceTypes} />
+          <ResourcesTable data={resources} />
         </>
       )}
     </div>

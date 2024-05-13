@@ -21,11 +21,9 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore'
-import { db } from '@/lib/firebase/clientApp'
+import { COLLECTION_NAMES, db } from '@/lib/firebase/clientApp'
 import { TipoRecursoInterface } from '@/lib/interfaces/tipoRecurso.interface'
 import { UnidadInterface } from '@/lib/interfaces/unidad.interface'
-
-const COLLECTION_NAME = 'TipoRecurso'
 
 interface ResourceTypeContextType {
   resourceTypes: TipoRecursoInterface[]
@@ -57,7 +55,7 @@ export function ResourceTypeProvider({ children }: { children: ReactNode }) {
   const createResourceType = async (resourceType: TipoRecursoInterface) => {
     try {
       setIsLoading(true)
-      const resourceTypeRef = collection(db, COLLECTION_NAME)
+      const resourceTypeRef = collection(db, COLLECTION_NAMES.RESOURCE_TYPE)
       await addDoc(resourceTypeRef, resourceType)
       toast({
         title: 'Tipo de Recurso creada con exito!',
@@ -86,13 +84,13 @@ export function ResourceTypeProvider({ children }: { children: ReactNode }) {
   const getResourceTypes = async () => {
     setIsLoading(true)
     try {
-      const resourceTypesDocs = collection(db, COLLECTION_NAME)
+      const resourceTypesDocs = collection(db, COLLECTION_NAMES.RESOURCE_TYPE)
       onSnapshot(resourceTypesDocs, async (snapshot) => {
         let resourceTypesData: TipoRecursoInterface[] = []
         for (const resourceTypeDoc of snapshot.docs) {
           const resourceType = resourceTypeDoc.data()
 
-          const unitRef = doc(db, 'Unidad', resourceType.idUnidad as string)
+          const unitRef = doc(db, COLLECTION_NAMES.UNIT, resourceType.idUnidad as string)
           const unitDoc = await getDoc(unitRef)
 
           resourceTypesData.push({
@@ -127,7 +125,7 @@ export function ResourceTypeProvider({ children }: { children: ReactNode }) {
   const updateResourceType = async (resourceType: TipoRecursoInterface) => {
     setIsLoading(true)
     try {
-      const resourceTypeRef = doc(db, COLLECTION_NAME, resourceType.id!)
+      const resourceTypeRef = doc(db, COLLECTION_NAMES.RESOURCE_TYPE, resourceType.id!)
 
       await updateDoc(resourceTypeRef, { ...resourceType })
       toast({
@@ -158,7 +156,7 @@ export function ResourceTypeProvider({ children }: { children: ReactNode }) {
   const deleteResourceType = async (resourceType: TipoRecursoInterface) => {
     setIsLoading(true)
     try {
-      const resourceTypeRef = doc(db, COLLECTION_NAME, resourceType.id!)
+      const resourceTypeRef = doc(db, COLLECTION_NAMES.RESOURCE_TYPE, resourceType.id!)
       await deleteDoc(resourceTypeRef)
       toast({
         title: 'Se eliminó la tipo de recurso con éxito!',
