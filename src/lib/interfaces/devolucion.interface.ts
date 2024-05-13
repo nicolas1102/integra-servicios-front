@@ -1,4 +1,4 @@
-export interface DevolucionUnidadInterface {
+export interface DevolucionInterface {
   entregaATiempo: boolean;
   horEntrega: string;
   idPrestamo: string;

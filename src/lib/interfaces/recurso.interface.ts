@@ -1,4 +1,4 @@
-export interface RecursoUnidadInterface {
+export interface RecursoInterface {
   caracteristicas: {
     personas: string;
     description: string;

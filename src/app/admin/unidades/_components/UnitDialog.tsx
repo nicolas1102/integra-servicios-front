@@ -43,7 +43,6 @@ export function UnitDialog({ unit }: { unit?: UnidadInterface }) {
     horFinSemFin,
   }: TUnitValidator) => {
     const unitData = {
-      id: unit ? unit.id : null,
       nombre,
       tMinPrestamo,
       horEntSem: {
@@ -55,7 +54,7 @@ export function UnitDialog({ unit }: { unit?: UnidadInterface }) {
         fin: horFinSemFin,
       },
     } as UnidadInterface
-
+    if (unit) unitData.id = unit.id
     try {
       unit ? updateUnit(unitData) : createUnit(unitData)
       clearForm()

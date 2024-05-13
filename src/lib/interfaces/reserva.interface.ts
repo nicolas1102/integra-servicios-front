@@ -1,4 +1,4 @@
-export interface ReservaUnidadInterface {
+export interface ReservaInterface {
   dia: Date;
   horario: {
     fin: string,

@@ -41,6 +41,7 @@ interface UnitContextType {
   setIsLoading: (isLoading: boolean) => void
   createUnit: (unit: UnidadInterface) => void
   getUnits: () => Promise<void>
+  getOneUnit: (id: string) => Promise<UnidadInterface>
   updateUnit: (unit: UnidadInterface) => void
   deleteUnit: (unit: UnidadInterface) => void
 }
@@ -94,11 +95,11 @@ export function UnitProvider({ children }: { children: ReactNode }) {
     setIsLoading(true)
     try {
       const documents = collection(db, COLLECTION_NAME)
-      onSnapshot(documents, (snapshot) => {
+      onSnapshot(documents, async (snapshot) => {
         let unitsData: UnidadInterface[] = []
-        snapshot.forEach((doc) => {
+        for (const doc of snapshot.docs) {
           unitsData.push({ ...doc.data(), id: doc.id } as UnidadInterface)
-        })
+        }
         setUnits(unitsData)
       })
     } catch (error: any) {
@@ -181,14 +182,25 @@ export function UnitProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const getOneUnit = async (id: string) => {
+    const unitRef = doc(db, COLLECTION_NAME, id)
+    const unit = await getDoc(unitRef)
+    if (unit.exists()) {
+      return unit.data() as UnidadInterface
+    } else {
+      throw new Error('Credenciales invalidas.')
+    }
+  }
+
   return (
     <UnitContext.Provider
       value={{
-        units: units,
+        units,
         setUnits,
         isLoading,
         setIsLoading,
         getUnits,
+        getOneUnit,
         createUnit,
         deleteUnit,
         updateUnit,

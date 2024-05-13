@@ -14,7 +14,7 @@ const FUNCTIONS = [
   {
     title: 'GESTIONAR TIPO DE RECURSOS',
     text: 'Gestiona todos los tipos de recursos del sistema.',
-    link: '/admin/tipos-recursos',
+    link: '/admin/tipos-recurso',
     icon: <BookType strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
   },
 ]
