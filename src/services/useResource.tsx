@@ -147,7 +147,7 @@ export function ResourceProvider({ children }: { children: ReactNode }) {
     setIsLoading(true)
     try {
       const resourceRef = doc(db, COLLECTION_NAMES.RESOURCE, resource.id!)
-
+      delete resource.id
       await updateDoc(resourceRef, { ...resource })
       toast({
         title: 'Se actualizó el recurso con éxito!',

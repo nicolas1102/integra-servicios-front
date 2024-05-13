@@ -116,6 +116,7 @@ export function UnitProvider({ children }: { children: ReactNode }) {
     setIsLoading(true)
     try {
       const unitRef = doc(db, COLLECTION_NAMES.UNIT, unit.id!)
+      delete unit.id
       await updateDoc(unitRef, { ...unit })
       toast({
         title: 'Se actualizó la unidad con éxito!',

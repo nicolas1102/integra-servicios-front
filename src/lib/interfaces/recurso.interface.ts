@@ -1,7 +1,7 @@
 import { TipoRecursoInterface } from './tipoRecurso.interface';
 
 export interface RecursoInterface {
-  id: string;
+  id?: string;
   nombre: string;
   idTRecurso: string;
   tRecurso?: TipoRecursoInterface

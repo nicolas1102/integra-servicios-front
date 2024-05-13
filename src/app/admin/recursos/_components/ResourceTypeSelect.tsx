@@ -59,7 +59,7 @@ export function ResourceTypeSelect({
                 value={resourceTypeItem.id!}
               >
                 {resourceTypeItem.nombre +
-                  ' | Unidad:' +
+                  ' | Unidad: ' +
                   resourceTypeItem.unidad?.nombre}
               </SelectItem>
             ))}

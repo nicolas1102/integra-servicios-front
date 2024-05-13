@@ -90,7 +90,11 @@ export function ResourceTypeProvider({ children }: { children: ReactNode }) {
         for (const resourceTypeDoc of snapshot.docs) {
           const resourceType = resourceTypeDoc.data()
 
-          const unitRef = doc(db, COLLECTION_NAMES.UNIT, resourceType.idUnidad as string)
+          const unitRef = doc(
+            db,
+            COLLECTION_NAMES.UNIT,
+            resourceType.idUnidad as string
+          )
           const unitDoc = await getDoc(unitRef)
 
           resourceTypesData.push({
@@ -125,8 +129,12 @@ export function ResourceTypeProvider({ children }: { children: ReactNode }) {
   const updateResourceType = async (resourceType: TipoRecursoInterface) => {
     setIsLoading(true)
     try {
-      const resourceTypeRef = doc(db, COLLECTION_NAMES.RESOURCE_TYPE, resourceType.id!)
-
+      const resourceTypeRef = doc(
+        db,
+        COLLECTION_NAMES.RESOURCE_TYPE,
+        resourceType.id!
+      )
+      delete resourceType.id
       await updateDoc(resourceTypeRef, { ...resourceType })
       toast({
         title: 'Se actualizó la tipo de recurso con éxito!',
@@ -156,7 +164,11 @@ export function ResourceTypeProvider({ children }: { children: ReactNode }) {
   const deleteResourceType = async (resourceType: TipoRecursoInterface) => {
     setIsLoading(true)
     try {
-      const resourceTypeRef = doc(db, COLLECTION_NAMES.RESOURCE_TYPE, resourceType.id!)
+      const resourceTypeRef = doc(
+        db,
+        COLLECTION_NAMES.RESOURCE_TYPE,
+        resourceType.id!
+      )
       await deleteDoc(resourceTypeRef)
       toast({
         title: 'Se eliminó la tipo de recurso con éxito!',
