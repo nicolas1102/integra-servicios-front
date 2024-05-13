@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ArrowLeft } from 'lucide-react'
-import { cn, MONTH_OPTIONS, YEAR_OPTIONS } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -12,22 +12,14 @@ import {
   TSignUpCredentialsValidator,
   SignUpCredentialsValidator,
 } from '@/lib/validators/account-credentials-validator'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { Icons } from '@/components/Icons'
 import FloatingButton from '@/components/CustomButtons/FloatingButton'
 import Separator from '@/components/Separator'
-import { toast } from 'sonner'
 import PrimaryButton from '@/components/CustomButtons/PrimaryButton'
 import { useUser } from '@/services/useUser'
 import { UsuarioInterface } from '@/lib/interfaces/usuario.interface'
 import { useEffect } from 'react'
-import { CreditCard } from '@/lib/interfaces/creditCard.model'
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth'
-import { auth } from '@/lib/firebase/clientApp'
 
 const Page = () => {
   const searchParams = useSearchParams()
