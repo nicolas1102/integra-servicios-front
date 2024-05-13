@@ -1,5 +1,3 @@
-'use client'
-
 import { flexRender } from '@tanstack/react-table'
 import { ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -17,30 +15,22 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import ParkingsTableColumns from '../_lib/ParkingsTableColumns'
-import { ParkingFiltersDialog } from './ParkingFiltersDialog'
-import { ParkingInterface } from '@/lib/interfaces/parking.interface'
-import { useEffect } from 'react'
+import ResourceTypesTableColumns from '../_lib/ResourceTypesTableColumns'
+import { TipoRecursoInterface } from '@/lib/interfaces/tipoRecurso.interface'
 
-export function ParkingsTable({
-  data,
-}: {
-  data: ParkingInterface[]
-}) {
-  const { table, columns } = ParkingsTableColumns({ data })
+export function ResourceTypesTable({ data }: { data: TipoRecursoInterface[] }) {
+
+  const { table, columns } = ResourceTypesTableColumns({ data })
   return (
     <div className='w-full gap-2'>
       <div className='flex items-center py-4'>
-        {/* TODO: Terminar */}
-        <ParkingFiltersDialog table={table} />
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant='outline'
-              className='ml-auto border border-blueFPC-400'
+              className='border border-blueFPC-400'
             >
-              <p className='tracking-widest'>COLUMNAS </p>
+              <p className='tracking-widest'>COLUMNAS</p>
               <ChevronDown className='ml-2 h-4 w-4' />
             </Button>
           </DropdownMenuTrigger>

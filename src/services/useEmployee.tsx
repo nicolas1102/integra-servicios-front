@@ -1,8 +1,5 @@
 'use client'
 
-import {
-  getAuthorizedUserRequest,
-} from '@/services/users.service'
 import { UserInterface } from '@/lib/interfaces/usuario.interface'
 import {
   createContext,
@@ -14,8 +11,9 @@ import {
 } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
+import { AxiosResponse } from 'axios'
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth'
-import { SignInResponse } from 'next-auth/react'
+import { signIn, SignInResponse } from 'next-auth/react'
 import { auth } from '@/lib/firebase/clientApp'
 
 interface UserContextType {
@@ -24,6 +22,7 @@ interface UserContextType {
   isLoading: boolean
   setIsLoading: (isLoading: boolean) => void
   createUser: (user: UserInterface) => Promise<UserCredential | undefined>
+  // getUsers: () => Promise<void>
   logInUser: (
     email: string,
     password: string,
@@ -50,7 +49,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const createUser = async (user: UserInterface) => {
     try {
       setIsLoading(true)
-      const res = await createUserWithEmailAndPassword(auth, user.correo, user.contraseña!)
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        user.correo,
+        user.contraseña!
+      )
       router.push('/auth/log-in')
       toast({
         title: 'Te has registrado con exito!',
@@ -80,7 +83,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const logInUser = async (correo: string, contraseña: string, rol: string) => {
     try {
       setIsLoading(true)
-      const res = await getAuthorizedUserRequest(correo, contraseña, rol)
+      const res = await signIn('credentials', {
+        correo,
+        contraseña,
+        rol,
+        redirect: false,
+      })
       router.push('/auth/log-in')
       toast({
         title: 'Has iniciado sesión con exito!',

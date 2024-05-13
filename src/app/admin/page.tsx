@@ -2,7 +2,12 @@
 
 import { useSession } from 'next-auth/react'
 import AdminFunctionItem from './_components/AdminFunctionItem'
-import { BookType, LineChart, ParkingSquare, University, User } from 'lucide-react'
+import {
+  BookType,
+  Computer,
+  Laptop,
+  University,
+} from 'lucide-react'
 
 const FUNCTIONS = [
   {
@@ -16,6 +21,12 @@ const FUNCTIONS = [
     text: 'Gestiona todos los tipos de recursos del sistema.',
     link: '/admin/tipos-recurso',
     icon: <BookType strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
+  },
+  {
+    title: 'GESTIONAR RECURSOS',
+    text: 'Gestiona todos los recursos del sistema.',
+    link: '/admin/recursos',
+    icon: <Laptop strokeWidth={0.9} className='h-32 w-32 mx-auto' />,
   },
 ]
 

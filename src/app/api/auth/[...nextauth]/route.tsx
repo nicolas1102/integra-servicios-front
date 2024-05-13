@@ -1,7 +1,6 @@
-import { getAuthorizedUserRequest } from '@/services/users.service'
 import { auth } from '@/lib/firebase/clientApp'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import NextAuth, { User } from 'next-auth'
+import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { getOneEmployeeByEmailAndPassword } from '@/services/employee.service'
 
