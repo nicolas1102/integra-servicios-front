@@ -47,13 +47,13 @@ const Page = () => {
     esAdmin,
   }: TAuthCredentialsValidator) => {
     try {
-      if (!stateCaptcha) {
-        toast({
-          variant: 'destructive',
-          title: 'Recuerda llenar el captcha.',
-        })
-        return
-      }
+      // if (!stateCaptcha) {
+      //   toast({
+      //     variant: 'destructive',
+      //     title: 'Recuerda llenar el captcha.',
+      //   })
+      //   return
+      // }
 
       setIsLoading(true)
 
@@ -161,12 +161,12 @@ const Page = () => {
                 </Toggle>
               </div>
               <div className='flex justify-center flex-col w-[407px] h-[78px]'>
-                <ReCAPTCHA
+                {/* <ReCAPTCHA
                   className='flex justify-center mx-auto'
                   size='normal'
                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
                   onChange={setStateCaptcha}
-                />
+                /> */}
               </div>
 
               <PrimaryButton text={'INGRESAR'} isLoading={isLoading} />
