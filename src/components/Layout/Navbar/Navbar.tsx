@@ -37,12 +37,12 @@ const Navbar = () => {
               <span className='border-l border-primary'></span>
             </>
           )}
-          {session?.rol === 'user' && (
+          {/* {session?.rol === 'user' && (
             <>
               <NavItem title='RECURSOS' link='/recursos' />
               <span className='border-l border-primary'></span>
             </>
-          )}
+          )} */}
           <ProfileNav
             isLoggedIn={Boolean(session)}
             correo={session ? session?.correo : 'Perfil'}
