@@ -29,7 +29,7 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    "/recursos/:path*",
-    "/admin/:path*",
+    // "/admin/:path*",
+    // "/recursos/:path*",
   ]
 };

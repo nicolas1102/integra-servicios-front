@@ -49,7 +49,7 @@ const authOptions = NextAuth({
             userLogged = {
               correo: userData.correo!,
               id: userData.id,
-              rol: rol,
+              rol: 'admin',
             }
           }
 
