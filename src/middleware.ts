@@ -7,6 +7,8 @@ export default withAuth(
     if (request.nextUrl.pathname.startsWith("/admin")
       && request.nextauth.token?.rol !== "admin"
     ) {
+      console.log('admin');
+      
       return NextResponse.rewrite(
         new URL("/auth/unauthorized", request.url)
       )
@@ -29,7 +31,7 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    // "/admin/:path*",
-    // "/recursos/:path*",
+    "/admin/:path*",
+    "/recursos/:path*",
   ]
 };
