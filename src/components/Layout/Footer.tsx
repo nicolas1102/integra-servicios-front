@@ -30,10 +30,10 @@ const Footer = async () => {
             INGRESAR
           </Link>
           <Link
-            href='/'
+            href='/recursos'
             className='tracking-widest border-b border-blueFPC-400 px-2 py-2 hover:bg-blueFPC-200 duration-700 dark:hover:text-black'
           >
-            PRESTAMO
+            RECURSOS
           </Link>
         </div>
 

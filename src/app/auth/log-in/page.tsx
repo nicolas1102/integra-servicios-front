@@ -29,6 +29,7 @@ const Page = () => {
   const { isLoading, setIsLoading, logInUser } = useUser()
   const origin = searchParams.get('callbackUrl')
   const { toast } = useToast()
+  const [stateCaptcha, setStateCaptcha] = useState<string | null>(null)
   const [esAdmin, setEsAdmin] = useState(false)
 
   const {
@@ -46,6 +47,14 @@ const Page = () => {
     esAdmin,
   }: TAuthCredentialsValidator) => {
     try {
+      if (!stateCaptcha) {
+        toast({
+          variant: 'destructive',
+          title: 'Recuerda llenar el captcha.',
+        })
+        return
+      }
+
       setIsLoading(true)
 
       // usamos metodo de next-auth para inicio de sesioon
@@ -150,6 +159,14 @@ const Page = () => {
                   {esAdmin ? <Check size={19} /> : <X size={19} />}
                   <p className='tracking-widest'>LOGUEARSE COMO ADMIN</p>
                 </Toggle>
+              </div>
+              <div className='flex justify-center flex-col w-[407px] h-[78px]'>
+                <ReCAPTCHA
+                  className='flex justify-center mx-auto'
+                  size='normal'
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                  onChange={setStateCaptcha}
+                />
               </div>
 
               <PrimaryButton text={'INGRESAR'} isLoading={isLoading} />
