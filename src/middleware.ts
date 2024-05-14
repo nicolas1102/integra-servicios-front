@@ -8,7 +8,7 @@ export default withAuth(
       && request.nextauth.token?.rol !== "admin"
     ) {
       console.log(request.nextauth.token?.rol);
-      
+
       return NextResponse.rewrite(
         new URL("/auth/unauthorized", request.url)
       )
@@ -32,7 +32,7 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    // "/admin/:path*",
-    // "/recursos/:path*",
+    '/admin/:path*',
+    '/recursos/:path*'
   ]
 };
