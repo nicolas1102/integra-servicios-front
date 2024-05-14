@@ -1,8 +1,6 @@
 import { Facebook, Instagram, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 
-export const FOOTER = 'FOUR PARKS, DONDE TU VEHÍCULO SIEMPRE ESTARÁ SEGURO.'
-
 const Footer = async () => {
   return (
     <div className='inset-x-0 items-center justify-center w-full bottom-0 px-8 flex flex-col text-neutral-800 dark:text-slate-50'>

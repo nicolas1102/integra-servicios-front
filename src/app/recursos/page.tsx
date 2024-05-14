@@ -200,11 +200,11 @@ export default function Home() {
 
       <div className='col-span-7 px-28 py-5'>
         <p className='mb-4 px-3'>Selecciona el recurso que necesites.</p>
-        <FloatingButton
+        {/* <FloatingButton
           text='Prueba reservando en Los Bazuqueros'
           href='/recursos-los-bazuqueros'
           direction='right'
-        />
+        /> */}
         <ScrollArea className='h-[620px]'>
           {filteredResources.length !== 0 ? (
             <div className='grid grid-cols-3 gap-2 pr-3'>
