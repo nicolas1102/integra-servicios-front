@@ -7,7 +7,7 @@ export default withAuth(
     if (request.nextUrl.pathname.startsWith("/admin")
       && request.nextauth.token?.rol !== "admin"
     ) {
-      console.log('admin');
+      console.log(request.nextauth.token?.rol);
       
       return NextResponse.rewrite(
         new URL("/auth/unauthorized", request.url)
@@ -17,6 +17,7 @@ export default withAuth(
     if (request.nextUrl.pathname.startsWith("/recursos")
       && request.nextauth.token?.rol !== "user"
     ) {
+      console.log(request.nextauth.token?.rol);
       return NextResponse.rewrite(
         new URL("/auth/unauthorized", request.url)
       )

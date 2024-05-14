@@ -19,8 +19,6 @@ import { RecursoInterface } from '@/lib/interfaces/recurso.interface'
 import ResourcesTableColumns from '../_lib/ResourcesTableColumns'
 
 export function ResourcesTable({ data }: { data: RecursoInterface[] }) {
-
-  console.log(data)
   const { table, columns } = ResourcesTableColumns({ data })
   return (
     <div className='w-full gap-2'>
