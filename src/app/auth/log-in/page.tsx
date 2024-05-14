@@ -160,14 +160,6 @@ const Page = () => {
                   <p className='tracking-widest'>LOGUEARSE COMO ADMIN</p>
                 </Toggle>
               </div>
-              <div className='flex justify-center flex-col w-[407px] h-[78px]'>
-                {/* <ReCAPTCHA
-                  className='flex justify-center mx-auto'
-                  size='normal'
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                  onChange={setStateCaptcha}
-                /> */}
-              </div>
 
               <PrimaryButton text={'INGRESAR'} isLoading={isLoading} />
 
