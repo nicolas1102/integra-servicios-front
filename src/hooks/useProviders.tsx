@@ -7,6 +7,7 @@ import { UnitProvider } from '../services/useUnit'
 import { ResourceTypeProvider } from '@/services/useResourceType'
 import { ResourceProvider } from '@/services/useResource'
 import { BookingProvider } from '@/services/useBooking'
+import { BazuquerosResourceProvider } from '@/services/useBazuquerosResource'
 
 interface Props {
   children: React.ReactNode
@@ -25,7 +26,11 @@ function Providers({ children }: Props) {
           <UnitProvider>
             <ResourceTypeProvider>
               <ResourceProvider>
-                <BookingProvider>{children}</BookingProvider>
+                <BookingProvider>
+                  <BazuquerosResourceProvider>
+                    {children}
+                  </BazuquerosResourceProvider>
+                </BookingProvider>
               </ResourceProvider>
             </ResourceTypeProvider>
           </UnitProvider>

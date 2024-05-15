@@ -52,7 +52,7 @@ export default function Home() {
     fetchResources()
   }, [])
   return (
-    <div>
+    <div className='relative'>
       <div className='py-2 px-4 border-b flex flex-row gap-3'>
         <h1 className='text-2xl tracking-widest font-normal flex content-center gap-x-2'>
           <Laptop size={35} />
@@ -198,33 +198,37 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='col-span-7 px-28 py-5'>
-        <p className='mb-4 px-3'>Selecciona el recurso que necesites.</p>
-        {/* <FloatingButton
-          text='Prueba reservando en Los Bazuqueros'
-          href='/recursos-los-bazuqueros'
-          direction='right'
-        /> */}
-        <ScrollArea className='h-[620px]'>
-          {filteredResources.length !== 0 ? (
-            <div className='grid grid-cols-3 gap-2 pr-3'>
-              {filteredResources.map((resourceItem) => (
-                <ResourceItem
-                  key={resourceItem.id}
-                  resourceData={resourceItem}
-                  setSelectedResource={setSelectedResource}
-                  isSelected={resourceItem.id === selectedResource?.id}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className='flex flex-col items-center w-full h-full py-14'>
-              <p className='text-xl tracking-widest'>
-                NO HAY RESULTADOS DE RECURSOS.
-              </p>
-            </div>
-          )}
-        </ScrollArea>
+      <div className='col-span-7 px-28 py-10'>
+        <div className=' relative'>
+          <FloatingButton
+            text='Prueba reservando con nuestros aliados, Los Bazuqueros'
+            href='/recursos-bazuqueros'
+            direction='right'
+          />
+        </div>
+        <div className='pt-5'>
+          <p className='mb-4'>Selecciona el recurso que necesites.</p>
+          <ScrollArea className='h-[620px]'>
+            {filteredResources.length !== 0 ? (
+              <div className='grid grid-cols-3 gap-2'>
+                {filteredResources.map((resourceItem) => (
+                  <ResourceItem
+                    key={resourceItem.id}
+                    resourceData={resourceItem}
+                    setSelectedResource={setSelectedResource}
+                    isSelected={resourceItem.id === selectedResource?.id}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className='flex flex-col items-center w-full h-full py-14'>
+                <p className='text-xl tracking-widest'>
+                  NO HAY RESULTADOS DE RECURSOS.
+                </p>
+              </div>
+            )}
+          </ScrollArea>
+        </div>
       </div>
     </div>
   )
