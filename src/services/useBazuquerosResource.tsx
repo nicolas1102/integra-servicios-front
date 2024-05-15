@@ -10,7 +10,7 @@ import {
 } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import { RecursoBazuquerosInterface } from '@/lib/interfaces/recursoBazuqueros.interface'
-import { getLosBazuquerosResourcesRequest } from '@/app/api/routers/LosBazuqueros.router'
+import { getLosBazuquerosResourcesRequest } from '@/app/api/routers/bazuqueros.router'
 
 interface BazuquerosResourceContextType {
   bazuquerosResources: RecursoBazuquerosInterface[]
