@@ -47,9 +47,11 @@ const BazuquerosResourceItem = ({
               Días disponibles:{' '}
               <span className='flex flex-row gap-1'>
                 {bazuquerosResourceItemData.horario_disponibilidad.map(
-                  (dia) => (
-                    <p key={dia.dia}>{dia.dia.charAt(0).toUpperCase()}</p>
-                  )
+                  (dia) => {
+                    return (
+                      <p key={dia.dia}>{dia.dia.charAt(0).toUpperCase()}</p>
+                    )
+                  }
                 )}
               </span>
             </div>

@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 import { useToast } from '@/components/ui/use-toast'
-import { RecursoBazuquerosInterface } from '@/lib/interfaces/recursoBazuqueros.interface'
+import { InterfaceBazuqueros, RecursoBazuquerosInterface } from '@/lib/interfaces/recursoBazuqueros.interface'
 import { getLosBazuquerosResourcesRequest } from '@/app/api/routers/bazuqueros.router'
 
 interface BazuquerosResourceContextType {
@@ -46,7 +46,10 @@ export function BazuquerosResourceProvider({
     setIsLoading(true)
     try {
       const res = await getLosBazuquerosResourcesRequest()
-      setBazuquerosResources(res.data)
+      const transformdata = res.data.map(
+        (item: InterfaceBazuqueros) => item.datos.data[0]
+      )
+      setBazuquerosResources(transformdata)
     } catch (error: any) {
       if (error?.response?.data) {
         toast({
