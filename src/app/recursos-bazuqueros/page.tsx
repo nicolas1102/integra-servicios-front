@@ -1,6 +1,6 @@
 'use client'
 
-import { Laptop } from 'lucide-react'
+import { Cigarette, Laptop } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import BazuquerosResourceItem from './_components/BazuquerosResourceItem'
@@ -30,7 +30,7 @@ export default function Home() {
     <div className='relative'>
       <div className='py-2 px-4 border-b flex flex-row gap-3'>
         <h1 className='text-2xl tracking-widest font-normal flex content-center gap-x-2'>
-          <Laptop size={35} />
+          <Cigarette size={35} />
           RECURSOS - LOS BAZUQUEROS
         </h1>
       </div>

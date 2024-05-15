@@ -1,8 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   Sheet,
   SheetClose,
@@ -13,13 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { Separator } from '@/components/ui/separator'
-import { buttonVariants } from '@/components/ui/button'
-import Link from 'next/link'
-// TODO: Hacer bookigitem
-// import CartItem from './CartItem'
-import { useEffect, useState } from 'react'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import PrimaryButton from '@/components/CustomButtons/PrimaryButton'
 
 const BookingSheet = () => {
